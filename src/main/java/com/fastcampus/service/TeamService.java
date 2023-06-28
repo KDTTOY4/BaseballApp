@@ -1,5 +1,6 @@
 package com.fastcampus.service;
 
+import com.fastcampus.dto.TeamDto;
 import com.fastcampus.model.Team;
 import com.fastcampus.repository.PlayerRepository;
 import com.fastcampus.repository.StadiumRepository;
@@ -62,7 +63,7 @@ public class TeamService {
         return "성공";
     }
 
-    private List<Team> getTeamList() {
+    private List<TeamDto> getTeamList() {
         return teamRepository.findAll();
     }
 }
