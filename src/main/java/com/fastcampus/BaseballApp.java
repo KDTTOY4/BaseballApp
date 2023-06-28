@@ -80,10 +80,10 @@ public class BaseballApp {
         // 야구장목록
       case "야구장목록" -> {}
       case "팀등록" -> {
-        //        System.out.println(registerTeam(Integer.parseInt(args[1]), args[2]));
+        System.out.println(teamService.registerTeam(Integer.parseInt(args[1]), args[2]));
       }
       case "팀목록" -> {
-        //        getTeamList().forEach(System.out::println);
+        teamService.getTeamList().forEach(System.out::println);
       }
         // 선수등록?teamId=1&name=이대호&position=1루수
       case "선수등록" -> {
