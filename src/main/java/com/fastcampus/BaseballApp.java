@@ -76,9 +76,12 @@ public class BaseballApp {
         // 야구장등록?name=잠실야구장
       case "야구장등록" -> {
         String name = args[1];
+        System.out.println(stadiumService.registerStadium(name));
       }
         // 야구장목록
-      case "야구장목록" -> {}
+      case "야구장목록" -> {
+        stadiumService.getStadiumList().forEach(System.out::println);
+      }
       case "팀등록" -> {
         System.out.println(teamService.registerTeam(Integer.parseInt(args[1]), args[2]));
       }
