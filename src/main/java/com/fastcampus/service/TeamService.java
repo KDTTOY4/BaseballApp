@@ -14,7 +14,7 @@ public class TeamService {
     TeamRepository teamRepository;
     PlayerRepository playerRepository;
 
-    public MainService(
+    public TeamService(
             @Autowired TeamRepository teamRepository,
             @Autowired StadiumRepository stadiumRepository,
             @Autowired PlayerRepository playerRepository) {
