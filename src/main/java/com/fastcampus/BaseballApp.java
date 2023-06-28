@@ -1,6 +1,10 @@
 package com.fastcampus;
 
 import com.fastcampus.db.DBInitializer;
+import com.fastcampus.service.OutPlayerService;
+import com.fastcampus.service.PlayerService;
+import com.fastcampus.service.StadiumService;
+import com.fastcampus.service.TeamService;
 import java.util.Arrays;
 import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +16,22 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication
 public class BaseballApp {
   Scanner scanner;
+  TeamService teamService;
+  StadiumService stadiumService;
+  PlayerService playerService;
+  OutPlayerService outPlayerService;
 
-  // TODO : Service Bean 의존성 주입
-
-  public BaseballApp(@Autowired Scanner scanner) {
+  public BaseballApp(
+      @Autowired Scanner scanner,
+      @Autowired TeamService teamService,
+      @Autowired StadiumService stadiumService,
+      @Autowired PlayerService playerService,
+      @Autowired OutPlayerService outPlayerService) {
     this.scanner = scanner;
+    this.teamService = teamService;
+    this.stadiumService = stadiumService;
+    this.playerService = playerService;
+    this.outPlayerService = outPlayerService;
   }
 
   public static void main(String[] args) {
