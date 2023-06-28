@@ -2,12 +2,14 @@ package com.fastcampus.dao;
 
 import com.fastcampus.dbconnection.DBConnection;
 import com.fastcampus.model.Team;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,7 +37,9 @@ public class TeamDao {
     public List<Team> selectAll() {
         List<Team> teamList = new ArrayList<>();
 
-        String sql = "SELECT * FROM team t";
+        String sql = "SELECT t.id, t.name, t.created_at, s.name AS stadium_name " +
+                "FROM team t " +
+                "JOIN stadium s ON t.stadium_id = s.id";
 
         ResultSet rs = null;
 
@@ -50,6 +54,7 @@ public class TeamDao {
                                 rs.getInt("stadium_id"),
                                 rs.getString("name"),
                                 rs.getTimestamp("created_at")));
+                rs.getString("stadium_name");
             }
         } catch (SQLException e) {
             e.printStackTrace();
