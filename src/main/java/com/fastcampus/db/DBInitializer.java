@@ -91,6 +91,11 @@ public class DBInitializer {
             + "       ((select id from team where team.name = 'NC'), '중견수', '마틴', now()),"
             + "       ((select id from team where team.name = 'NC'), '좌익수', '김성욱', now());";
 
+    String initializeOutPlayer =
+        "insert into out_player (player_id, reason, created_at)"
+            + " values (1, '집안일', now()),"
+            + "(2, '집안일', now());";
+
     try (Connection conn = DBConnection.getConnection();
         Statement stmt = conn.createStatement()) {
 
@@ -101,6 +106,7 @@ public class DBInitializer {
       stmt.executeUpdate(initializeStadium);
       stmt.executeUpdate(initializeTeam);
       stmt.executeUpdate(initializePlayer);
+      stmt.executeUpdate(initializeOutPlayer);
 
       System.out.println("Tables created successfully.");
 
