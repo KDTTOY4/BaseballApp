@@ -42,13 +42,15 @@ public class OutPlayerDao {
 
     String sql =
         "select "
+            + "t.name team_name, "
             + "p.id player_id, "
             + "p.name player_name, "
             + "p.position player_position, "
             + "o.reason reason, "
             + "o.created_at out_date "
             + "from out_player o "
-            + "right outer join player p on p.id = o.player_id;";
+            + "right outer join player p on p.id = o.player_id "
+            + "left outer join team t on t.id = p.team_id;";
 
     try (Connection conn = DBConnection.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -58,6 +60,7 @@ public class OutPlayerDao {
         if (rs.getString("reason") == null) {
           outPlayerRespDtoList.add(
               OutPlayerRespDto.of(
+                  rs.getString("team_name"),
                   rs.getInt("player_id"),
                   rs.getString("player_name"),
                   rs.getString("player_position")));
