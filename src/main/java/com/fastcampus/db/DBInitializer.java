@@ -6,17 +6,25 @@ import java.sql.Statement;
 
 public class DBInitializer {
   public static void createTables() {
-    String createStadiumTable =
-        "CREATE TABLE IF NOT EXISTS stadium (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL)";
+    String createStadium =
+        "create table stadium ( id int primary key auto_increment, name varchar(20), created_at timestamp, index name (name))";
 
-    String createTeamTable =
-        "CREATE TABLE IF NOT EXISTS team (id INT AUTO_INCREMENT PRIMARY KEY, stadium_id INT NOT NULL, name VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, deleted_at TIMESTAMP)";
+    String createTeam =
+        "create table team ( id int primary key auto_increment, name varchar(20), created_at timestamp, stadium_id int, index name (name), foreign key (stadium_id) references stadium (id))";
+
+    String createPlayer =
+        "create table player ( id int primary key auto_increment, team_id int, position varchar(20), name varchar(20), created_at timestamp, index name (name), index team_id (team_id), index team_position (team_id, position), unique (team_id, position), foreign key (team_id) references team (id))";
+
+    String createOutPlayer =
+        "create table out_player (id int primary key auto_increment, player_id  int, reason varchar(200), created_at timestamp, foreign key (player_id) references player (id))";
 
     try (Connection conn = DBConnection.getConnection();
         Statement stmt = conn.createStatement()) {
 
-      stmt.executeUpdate(createStadiumTable);
-      stmt.executeUpdate(createTeamTable);
+      stmt.executeUpdate(createStadium);
+      stmt.executeUpdate(createTeam);
+      stmt.executeUpdate(createPlayer);
+      stmt.executeUpdate(createOutPlayer);
 
       System.out.println("Tables created successfully.");
 
