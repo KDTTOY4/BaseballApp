@@ -102,8 +102,11 @@ public class BaseballApp {
       case "퇴출등록" -> {
         Integer playerId = Integer.parseInt(args[1]);
         String reason = args[2];
+        System.out.println(outPlayerService.registerOutPlayer(playerId, reason));
       }
-      case "퇴출목록" -> {}
+      case "퇴출목록" -> {
+        outPlayerService.getOutPlayerList().forEach(System.out::println);
+      }
       case "포지션별목록" -> {}
       default -> {
         System.out.println("명령을 입력해주세요.");
