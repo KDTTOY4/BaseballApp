@@ -1,5 +1,6 @@
 package com.fastcampus;
 
+import com.fastcampus.db.DBInitializer;
 import java.util.Arrays;
 import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class BaseballApp {
 
   @EventListener(ApplicationReadyEvent.class)
   public void run() {
+    DBInitializer.createTables();
+
     while (true) {
       String[] args = parseCommand(inputRequest());
 
