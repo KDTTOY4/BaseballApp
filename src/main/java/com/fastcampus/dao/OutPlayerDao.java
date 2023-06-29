@@ -2,10 +2,8 @@ package com.fastcampus.dao;
 
 import com.fastcampus.db.DBConnection;
 import com.fastcampus.dto.OutPlayerRespDto;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.fastcampus.enums.OutReason;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -18,12 +16,12 @@ public class OutPlayerDao {
     String updateSQL = "UPDATE player SET team_id = null WHERE id = ?;";
 
     try (Connection conn = DBConnection.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(insertSQL);
-         PreparedStatement updateStmt = conn.prepareStatement(updateSQL)) {
+        PreparedStatement pstmt = conn.prepareStatement(insertSQL);
+        PreparedStatement updateStmt = conn.prepareStatement(updateSQL)) {
       conn.setAutoCommit(false);
 
       pstmt.setInt(1, playerId);
-      pstmt.setString(2, reason.name());
+      pstmt.setString(2, reason.getReason());
       pstmt.executeUpdate();
 
       updateStmt.setInt(1, playerId);
@@ -46,38 +44,37 @@ public class OutPlayerDao {
     List<OutPlayerRespDto> outPlayerRespDtoList = new ArrayList<>();
 
     String sql =
-            "select "
-                    + "t.name team_name, "
-                    + "p.id player_id, "
-                    + "p.name player_name, "
-                    + "p.position player_position, "
-                    + "o.reason reason, "
-                    + "o.created_at out_date "
-                    + "from out_player o "
-                    + "right outer join player p on p.id = o.player_id "
-                    + "left outer join team t on t.id = p.team_id;";
+        "select "
+            + "t.name team_name, "
+            + "p.id player_id, "
+            + "p.name player_name, "
+            + "p.position player_position, "
+            + "o.reason reason, "
+            + "o.created_at out_date "
+            + "from out_player o "
+            + "right outer join player p on p.id = o.player_id "
+            + "left outer join team t on t.id = p.team_id;";
 
     try (Connection conn = DBConnection.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql);
-         ResultSet rs = pstmt.executeQuery()) {
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery()) {
 
       while (rs.next()) {
+        String teamName = rs.getString("team_name");
+        Integer playerId = rs.getInt("player_id");
+        String playerName = rs.getString("player_name");
+        String playerPosition = rs.getString("player_position");
+        String reason = rs.getString("reason");
+        Timestamp outDate = rs.getTimestamp("out_date");
+
+        OutPlayerRespDto outPlayerRespDto;
         if (rs.getString("reason") == null) {
-          outPlayerRespDtoList.add(
-                  OutPlayerRespDto.of(
-                          rs.getString("team_name"),
-                          rs.getInt("player_id"),
-                          rs.getString("player_name"),
-                          rs.getString("player_position")));
+          outPlayerRespDto = OutPlayerRespDto.of(teamName, playerId, playerName, playerPosition);
         } else {
-          outPlayerRespDtoList.add(
-                  OutPlayerRespDto.of(
-                          rs.getInt("player_id"),
-                          rs.getString("player_name"),
-                          rs.getString("player_position"),
-                          rs.getString("reason"),
-                          rs.getTimestamp("out_date")));
+          outPlayerRespDto =
+              OutPlayerRespDto.of(playerId, playerName, playerPosition, reason, outDate);
         }
+        outPlayerRespDtoList.add(outPlayerRespDto);
       }
     } catch (SQLException e) {
       e.printStackTrace();
