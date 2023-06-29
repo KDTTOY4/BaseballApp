@@ -62,12 +62,16 @@ public class BaseballApp {
 
   private boolean validate(String command, Map<String, String> args) {
 
-    if (!("야구장목록".equals(command)
+    // 단일 명령 유효성 검증
+    if ("야구장목록".equals(command)
         || "팀목록".equals(command)
         || "퇴출목록".equals(command)
-        || "포지션별목록".equals(command))) {
-      if (args == null || args.keySet().isEmpty()) return false;
+        || "포지션별목록".equals(command)) {
+      if (args == null || args.keySet().isEmpty()) return true;
     }
+
+    // 인자가 필요한 명령들 유효성 검증
+    if (args == null || args.keySet().isEmpty()) return false;
 
     int argsSize = args.keySet().size();
 
