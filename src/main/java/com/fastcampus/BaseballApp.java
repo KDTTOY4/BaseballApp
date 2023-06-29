@@ -1,11 +1,13 @@
 package com.fastcampus;
 
 import com.fastcampus.db.DBInitializer;
+import com.fastcampus.dto.PlayerDto;
 import com.fastcampus.service.OutPlayerService;
 import com.fastcampus.service.PlayerService;
 import com.fastcampus.service.StadiumService;
 import com.fastcampus.service.TeamService;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -96,7 +98,20 @@ public class BaseballApp {
       }
         // 선수목록?teamId=1
       case "선수목록" -> {
+        if (args.length < 2) {
+          System.out.println("팀 ID를 입력해주세요.");
+          return;
+        }
         Integer teamId = Integer.parseInt(args[1]);
+        List<PlayerDto> playerList = playerService.getPlayerList(teamId);
+
+        System.out.println("선수 목록");
+        System.out.println("----------");
+        for (PlayerDto player : playerList) {
+          System.out.println("이름: " + player.getName());
+          System.out.println("포지션: " + player.getPosition());
+          System.out.println("-----------");
+        }
       }
         // 퇴출등록?playerId=1&reason=도박
       case "퇴출등록" -> {

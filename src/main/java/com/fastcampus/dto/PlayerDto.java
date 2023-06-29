@@ -1,25 +1,25 @@
-package com.fastcampus.model;
+package com.fastcampus.dto;
 
 import java.sql.Timestamp;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @ToString
-public class Player {
+public class PlayerDto {
     private Integer id;
-    private Integer teamId;
     private String name;
     private String position;
     private Timestamp createdAt;
+    private String teamName;
 
-    public Player(int teamId, String name, String position) {
-        this.teamId = teamId;
+    public PlayerDto(Integer id, String name, String position, Timestamp createdAt, String teamName) {
+        this.id = id;
         this.name = name;
         this.position = position;
+        this.createdAt = createdAt;
+        this.teamName = teamName;
     }
 }
