@@ -12,24 +12,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OutPlayerDao {
-
-  public enum Reason {
-    GAMBLING("도박"),
-    VIOLENCE("개인사유"),
-    ETC("기타");
-
-    private final String reason;
-
-    Reason(String reason) {
-      this.reason = reason;
-    }
-
-    public String getReason() {
-      return reason;
-    }
-  }
-  public void insertOutPlayer(Integer playerId, Reason reason) {
-    String insertSQL = "INSERT INTO out_player (player_id, reason, created_at) VALUES (?, ?, now());";
+  public void insertOutPlayer(Integer playerId, OutReason reason) {
+    String insertSQL =
+        "INSERT INTO out_player (player_id, reason, created_at) VALUES (?, ?, now());";
     String updateSQL = "UPDATE player SET team_id = null WHERE id = ?;";
 
     try (Connection conn = DBConnection.getConnection();
