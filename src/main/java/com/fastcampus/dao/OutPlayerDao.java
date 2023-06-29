@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OutPlayerDao {
+
   public enum Reason {
     GAMBLING("도박"),
     VIOLENCE("개인사유"),
@@ -37,7 +38,7 @@ public class OutPlayerDao {
       conn.setAutoCommit(false);
 
       pstmt.setInt(1, playerId);
-      pstmt.setString(2, reason.name()); // 열거형의 이름을 사용하여 문자열 값을 설정합니다.
+      pstmt.setString(2, reason.name());
       pstmt.executeUpdate();
 
       updateStmt.setInt(1, playerId);

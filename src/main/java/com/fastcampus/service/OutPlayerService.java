@@ -2,9 +2,10 @@ package com.fastcampus.service;
 
 import com.fastcampus.dao.OutPlayerDao;
 import com.fastcampus.dto.OutPlayerRespDto;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OutPlayerService {
@@ -14,22 +15,9 @@ public class OutPlayerService {
     this.outPlayerDao = outPlayerDao;
   }
 
-  public String registerOutPlayer(Integer playerId, String reason) {
-    String formattedReason = formatReason(reason);
-    OutPlayerDao.Reason enumReason = OutPlayerDao.Reason.valueOf(formattedReason);
-    outPlayerDao.insertOutPlayer(playerId, enumReason);
-
+  public String registerOutPlayer(Integer playerId, OutPlayerDao.Reason reason) {
+    outPlayerDao.insertOutPlayer(playerId, reason);
     return "성공";
-  }
-
-  private String formatReason(String reason) {
-    if (reason.equalsIgnoreCase("도박")) {
-      return "GAMBLING";
-    } else if (reason.equalsIgnoreCase("개인사유")) {
-      return "VIOLENCE";
-    } else {
-      return "ETC";
-    }
   }
 
   public List<OutPlayerRespDto> getOutPlayerList() {
