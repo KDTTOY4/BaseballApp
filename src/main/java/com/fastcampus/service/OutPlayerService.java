@@ -15,9 +15,21 @@ public class OutPlayerService {
   }
 
   public String registerOutPlayer(Integer playerId, String reason) {
-    outPlayerDao.insertOutPlayer(playerId, reason);
+    String formattedReason = formatReason(reason);
+    OutPlayerDao.Reason enumReason = OutPlayerDao.Reason.valueOf(formattedReason);
+    outPlayerDao.insertOutPlayer(playerId, enumReason);
 
     return "성공";
+  }
+
+  private String formatReason(String reason) {
+    if (reason.equalsIgnoreCase("도박")) {
+      return "GAMBLING";
+    } else if (reason.equalsIgnoreCase("개인사유")) {
+      return "VIOLENCE";
+    } else {
+      return "ETC";
+    }
   }
 
   public List<OutPlayerRespDto> getOutPlayerList() {
