@@ -6,9 +6,7 @@ import com.fastcampus.service.OutPlayerService;
 import com.fastcampus.service.PlayerService;
 import com.fastcampus.service.StadiumService;
 import com.fastcampus.service.TeamService;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -45,14 +43,69 @@ public class BaseballApp {
     DBInitializer.createTables();
 
     while (true) {
-      String[] args = parseCommand(inputRequest());
+      String[] request = parseRequest(inputRequest());
+      String command = request[0];
+      Map<String, String> args = null;
 
-      if ("EXIT".equalsIgnoreCase(args[0])) break;
+      if (request.length > 1) args = parseArgs(request[1]);
 
-      // TODO : Request Validation (사용자 요청 유효성 검사)
+      if (!validate(command, args)) {
+        System.out.println("잘못된 요청입니다.");
+        continue;
+      }
 
-      execute(args);
+      if ("종료".equals(command) || "EXIT".equalsIgnoreCase(command)) break;
+
+      execute(command, args);
     }
+  }
+
+  private boolean validate(String command, Map<String, String> args) {
+
+    if (!("야구장목록".equals(command)
+        || "팀목록".equals(command)
+        || "퇴출목록".equals(command)
+        || "포지션별목록".equals(command))) {
+      if (args == null || args.keySet().isEmpty()) return false;
+    }
+
+    int argsSize = args.keySet().size();
+
+    // 야구장등록?name=잠실야구장
+    if ("야구장등록".equals(command)) {
+      if (argsSize != 1) return false;
+      if (!args.containsKey("name")) return false;
+    }
+
+    // 팀등록?stadiumId=1&name=NC
+    if ("팀등록".equals(command)) {
+      if (argsSize != 2) return false;
+      if (!args.containsKey("stadiumId")) return false;
+      if (!args.containsKey("name")) return false;
+    }
+
+    // 선수등록?teamId=1&name=이대호&position=1루수
+    if ("선수등록".equals(command)) {
+      if (argsSize != 3) return false;
+      if (!args.containsKey("teamId")) return false;
+      if (!args.containsKey("name")) return false;
+      if (!args.containsKey("position")) return false;
+    }
+
+    // 선수목록?teamId=1
+    if ("선수목록".equals(command)) {
+      if (argsSize != 1) return false;
+      if (!args.containsKey("teamId")) return false;
+    }
+
+    // 퇴출등록?playerId=1&reason=도박
+    if ("퇴출등록".equals(command)) {
+      if (argsSize != 2) return false;
+      if (!args.containsKey("playerId")) return false;
+      if (!args.containsKey("reason")) return false;
+    }
+
+    return true;
   }
 
   private String inputRequest() {
@@ -60,49 +113,45 @@ public class BaseballApp {
     return scanner.nextLine();
   }
 
-  private String[] parseCommand(String request) {
-    String[] args =
-        Arrays.stream(request.split("[?|&]"))
-            .map(arg -> arg.contains("=") ? arg.split("=")[1] : arg)
-            .toArray(String[]::new);
-
-    // TODO : 명령어와 함께 전달되는 인자들 Map 생성해서 전달
-
-    System.out.println(Arrays.toString(args));
-
-    return args;
+  private String[] parseRequest(String request) {
+    return request.split("\\?");
   }
 
-  public void execute(String[] args) {
-    switch (args[0]) {
+  private Map<String, String> parseArgs(String argStr) {
+    Map<String, String> argMap = new HashMap<>();
+    Arrays.stream(argStr.split("&"))
+        .forEach(
+            arg -> {
+              if (arg.contains("=")) {
+                String[] parsed = arg.split("=");
+                argMap.put(parsed[0], parsed[1]);
+              }
+            });
+
+    return argMap;
+  }
+
+  public void execute(String command, Map<String, String> args) {
+    switch (command) {
         // 야구장등록?name=잠실야구장
-      case "야구장등록" -> {
-        String name = args[1];
-        System.out.println(stadiumService.registerStadium(name));
-      }
+      case "야구장등록" -> System.out.println(stadiumService.registerStadium(args.get("name")));
+
         // 야구장목록
-      case "야구장목록" -> {
-        stadiumService.getStadiumList().forEach(System.out::println);
-      }
-      case "팀등록" -> {
-        System.out.println(teamService.registerTeam(Integer.parseInt(args[1]), args[2]));
-      }
-      case "팀목록" -> {
-        teamService.getTeamList().forEach(System.out::println);
-      }
+      case "야구장목록" -> stadiumService.getStadiumList().forEach(System.out::println);
+
+        // 팀등록?stadiumId=1&name=NC
+      case "팀등록" -> System.out.println(
+          teamService.registerTeam(Integer.parseInt(args.get("stadiumId")), args.get("name")));
+
+      case "팀목록" -> teamService.getTeamList().forEach(System.out::println);
+
         // 선수등록?teamId=1&name=이대호&position=1루수
-      case "선수등록" -> {
-        Integer teamId = Integer.parseInt(args[1]);
-        String name = args[2];
-        String position = args[3];
-      }
+      case "선수등록" -> playerService.registerPlayer(
+          args.get("name"), args.get("position"), Integer.parseInt(args.get("teamId")));
+
         // 선수목록?teamId=1
       case "선수목록" -> {
-        if (args.length < 2) {
-          System.out.println("팀 ID를 입력해주세요.");
-          return;
-        }
-        Integer teamId = Integer.parseInt(args[1]);
+        Integer teamId = Integer.parseInt(args.get("teamId"));
         List<PlayerDto> playerList = playerService.getPlayerList(teamId);
 
         System.out.println("선수 목록");
@@ -114,18 +163,14 @@ public class BaseballApp {
         }
       }
         // 퇴출등록?playerId=1&reason=도박
-      case "퇴출등록" -> {
-        Integer playerId = Integer.parseInt(args[1]);
-        String reason = args[2];
-        System.out.println(outPlayerService.registerOutPlayer(playerId, reason));
-      }
-      case "퇴출목록" -> {
-        outPlayerService.getOutPlayerList().forEach(System.out::println);
-      }
+      case "퇴출등록" -> System.out.println(
+          outPlayerService.registerOutPlayer(
+              Integer.parseInt(args.get("playerId")), args.get("reason")));
+
+      case "퇴출목록" -> outPlayerService.getOutPlayerList().forEach(System.out::println);
+
       case "포지션별목록" -> {}
-      default -> {
-        System.out.println("명령을 입력해주세요.");
-      }
+      default -> System.out.println("명령을 입력해주세요.");
     }
   }
 }
