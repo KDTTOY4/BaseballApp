@@ -65,4 +65,28 @@ public class PlayerDao {
 
         return new PlayerDto(id, name, position, createdAt, teamName);
     }
+    public PlayerDto selectById(Integer playerId) {
+        PlayerDto player = null;
+        String sql =
+                "SELECT p.id, p.name, p.position, p.created_at, t.name AS team_name "
+                        + "FROM player p "
+                        + "JOIN team t ON p.team_id = t.id "
+                        + "WHERE p.id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, playerId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                player = mapResultSetToPlayerDto(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return player;
+    }
 }
