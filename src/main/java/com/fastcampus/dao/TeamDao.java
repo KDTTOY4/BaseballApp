@@ -1,12 +1,11 @@
 package com.fastcampus.dao;
 
 import com.fastcampus.db.DBConnection;
+import com.fastcampus.dto.PositionRespDto;
 import com.fastcampus.dto.TeamDto;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -59,5 +58,44 @@ public class TeamDao {
     String stadiumName = rs.getString("stadium_name");
 
     return new TeamDto(id, name, createdAt, stadiumName);
+  }
+
+  public List<PositionRespDto> selectPlayerTablePositionRowTeamColumn() {
+    List<TeamDto> teamDtoList = selectAll();
+
+    StringBuilder sql = new StringBuilder("select p.position position_name");
+
+    for (TeamDto teamDto : teamDtoList) {
+      sql.append(", ")
+          .append("max(case when t.name = '")
+          .append(teamDto.getName())
+          .append("' then p.name end) ")
+          .append(teamDto.getName());
+    }
+    sql.append(" from team t right outer join player p on p.team_id = t.id group by p.position;");
+
+    List<PositionRespDto> positionRespDtoList = new ArrayList<>();
+    try (Connection conn = DBConnection.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+
+      ResultSet rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+        PositionRespDto positionRespDto = new PositionRespDto(rs.getString("position_name"));
+
+        for (TeamDto teamDto : teamDtoList) {
+          positionRespDto
+              .getPlayerNameMapByTeam()
+              .put(teamDto.getName(), rs.getString(teamDto.getName()));
+        }
+
+        positionRespDtoList.add(positionRespDto);
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return positionRespDtoList;
   }
 }

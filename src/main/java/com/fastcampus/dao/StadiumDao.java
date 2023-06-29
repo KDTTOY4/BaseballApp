@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StadiumDao {
   public void insertStadium(String name) {
-    String sql = "INSERT INTO stadium (name) VALUES (?)";
+    String sql = "INSERT INTO stadium (name, created_at) VALUES (?, now());";
 
     try (Connection conn = DBConnection.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)) {

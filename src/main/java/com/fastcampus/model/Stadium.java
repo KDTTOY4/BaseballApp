@@ -1,3 +1,14 @@
 package com.fastcampus.model;
 
-public class Stadium {}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.sql.Timestamp;
+
+@Getter
+@AllArgsConstructor
+public class Stadium {
+  Integer id;
+  String name;
+  Timestamp createdAt;
+}
