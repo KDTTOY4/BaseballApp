@@ -173,7 +173,14 @@ public class BaseballApp {
 
       case "퇴출목록" -> outPlayerService.getOutPlayerList().forEach(System.out::println);
 
-      case "포지션별목록" -> {}
+      case "포지션별목록" -> teamService
+          .getPositionList()
+          .forEach(
+              positionRespDto ->
+                  System.out.println(
+                      positionRespDto.getPosition()
+                          + " "
+                          + positionRespDto.getPlayerNameMapByTeam()));
       default -> System.out.println("명령을 입력해주세요.");
     }
   }
