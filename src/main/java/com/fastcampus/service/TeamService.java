@@ -1,6 +1,7 @@
 package com.fastcampus.service;
 
 import com.fastcampus.dao.TeamDao;
+import com.fastcampus.dto.PositionRespDto;
 import com.fastcampus.dto.TeamDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,9 @@ public class TeamService {
 
   public List<TeamDto> getTeamList() {
     return teamDao.selectAll();
+  }
+
+  public List<PositionRespDto> getPositionList() {
+    return teamDao.selectPlayerTablePositionRowTeamColumn();
   }
 }
