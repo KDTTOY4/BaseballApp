@@ -13,27 +13,50 @@ import org.springframework.stereotype.Component;
 @Component
 public class OutPlayerDao {
   public void insertOutPlayer(Integer playerId, String reason) {
-    String sql =
-        "insert into out_player (player_id, reason, created_at) values (?, ?, now());"
-            + "update player set team_id=null where id = ?;";
+    String insertSQL =
+        "insert into out_player (player_id, reason, created_at) values (?, ?, now());";
 
-    try (Connection conn = DBConnection.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    String updateSQL = "update player set team_id=null where id = ?;";
 
+    Connection conn = null;
+    try {
+      PreparedStatement pstmt = conn.prepareStatement(insertSQL);
+      conn = DBConnection.getConnection();
       conn.setAutoCommit(false);
 
       pstmt.setInt(1, playerId);
       pstmt.setString(2, reason);
-      pstmt.setInt(3, playerId);
+      pstmt.executeUpdate();
+
+      pstmt = conn.prepareStatement(updateSQL);
+      pstmt.setInt(1, playerId);
+
       int affectedRows = pstmt.executeUpdate();
+
       if (affectedRows > 0) {
         System.out.println("OutPlayer Registration Success");
       } else {
         System.out.println("OutPlayer Registration Failed");
       }
+
       conn.commit();
-    } catch (SQLException e) {
+      conn.setAutoCommit(true);
+      pstmt.close();
+    } catch (Exception e) {
+      try {
+        conn.rollback();
+        conn.setAutoCommit(true);
+      } catch (SQLException e2) {
+
+      }
       e.printStackTrace();
+    } finally {
+      try {
+        if (conn != null) {
+          conn.close();
+        }
+      } catch (SQLException e3) {
+      }
     }
   }
 
