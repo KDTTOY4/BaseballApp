@@ -2,6 +2,8 @@ package com.fastcampus.dao;
 
 import com.fastcampus.db.DBConnection;
 import com.fastcampus.dto.StadiumDto;
+import com.fastcampus.exceptions.BaseballAppException;
+import com.fastcampus.exceptions.code.AppErrorCode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,13 +23,13 @@ public class StadiumDao {
       pstmt.setString(1, name);
 
       int affectedRows = pstmt.executeUpdate();
-      if (affectedRows > 0) {
-        System.out.println("Stadium Registration Success");
-      } else {
-        System.out.println("Stadium Registration Failed");
-      }
+
+      if (affectedRows == 0) throw new SQLException();
+
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+    } catch (Exception e) {
+      throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
     }
   }
 
@@ -45,7 +47,9 @@ public class StadiumDao {
             StadiumDto.of(rs.getInt("id"), rs.getString("name"), rs.getTimestamp("created_at")));
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+    } catch (Exception e) {
+      throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
     }
 
     return stadiumDtoList;
