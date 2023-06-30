@@ -95,10 +95,10 @@ public class DBInitializer {
     String initializeOutPlayer =
         "insert into out_player (player_id, reason, created_at) "
             + "values "
-            + "(1, '집안일', now()),"
-            + "(2, '집안일', now());"
+            + "(1, '폭행', now()),"
+            + "(3, '도박', now());"
             + "update player set team_id=null where player.id=1;"
-            + "update player set team_id=null where player.id=2;";
+            + "update player set team_id=null where player.id=3;";
 
     try (Connection conn = DBConnection.getConnection();
         Statement stmt = conn.createStatement()) {
