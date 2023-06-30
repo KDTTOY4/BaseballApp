@@ -30,6 +30,8 @@ public class PlayerDao {
             }
         } catch (SQLException e) {
             throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+        } catch (Exception e) {
+            throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
         }
     }
 
@@ -52,6 +54,8 @@ public class PlayerDao {
             }
         } catch (SQLException e) {
             throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+        } catch (Exception e) {
+            throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
         }
 
         return playerList;
@@ -88,6 +92,8 @@ public class PlayerDao {
             }
         } catch (SQLException e) {
             throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+        } catch (Exception e) {
+            throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
         }
 
         return player;
