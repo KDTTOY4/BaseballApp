@@ -31,7 +31,9 @@ public class TeamDao {
         System.out.println("Team Registration Failed");
       }
     } catch (SQLException e) {
-      handleSQLException(e);
+      throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+    } catch (Exception e) {
+      throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
     }
   }
 
@@ -49,9 +51,10 @@ public class TeamDao {
         teamList.add(mapResultSetToTeamDto(rs));
       }
     } catch (SQLException e) {
-      handleSQLException(e);
+      throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+    } catch (Exception e) {
+      throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
     }
-
     return teamList;
   }
 
@@ -97,13 +100,11 @@ public class TeamDao {
       }
 
     } catch (SQLException e) {
-      handleSQLException(e);
+      throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+    } catch (Exception e) {
+      throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
     }
 
     return positionRespDtoList;
-  }
-
-  private void handleSQLException(SQLException e) {
-    throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
   }
 }
