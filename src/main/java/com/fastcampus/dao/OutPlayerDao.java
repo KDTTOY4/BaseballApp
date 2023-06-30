@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OutPlayerDao {
-  public void insertOutPlayer(Integer playerId, OutReason reason) {
+  public void insertOutPlayer(Integer playerId, OutReason reason) throws BaseballAppException {
     String insertSQL =
         "INSERT INTO out_player (player_id, reason, created_at) VALUES (?, ?, now());";
     String updateSQL = "UPDATE player SET team_id = null WHERE id = ?;";
@@ -41,7 +41,7 @@ public class OutPlayerDao {
     }
   }
 
-  public List<OutPlayerRespDto> selectAll() {
+  public List<OutPlayerRespDto> selectAll() throws BaseballAppException {
     List<OutPlayerRespDto> outPlayerRespDtoList = new ArrayList<>();
 
     String sql =

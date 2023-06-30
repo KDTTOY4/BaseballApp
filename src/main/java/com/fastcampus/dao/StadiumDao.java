@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StadiumDao {
-  public void insertStadium(String name) {
+  public void insertStadium(String name) throws BaseballAppException {
     String sql = "INSERT INTO stadium (name, created_at) VALUES (?, now());";
 
     try (Connection conn = DBConnection.getConnection();
@@ -33,7 +33,7 @@ public class StadiumDao {
     }
   }
 
-  public List<StadiumDto> selectAll() {
+  public List<StadiumDto> selectAll() throws BaseballAppException {
     List<StadiumDto> stadiumDtoList = new ArrayList<>();
 
     String sql = "SELECT * FROM stadium;";
