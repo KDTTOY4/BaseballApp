@@ -67,7 +67,9 @@ public class BaseballApp {
     if ("야구장목록".equals(command)
         || "팀목록".equals(command)
         || "퇴출목록".equals(command)
-        || "포지션별목록".equals(command)) {
+        || "포지션별목록".equals(command)
+        || "종료".equals(command)
+        || "exit".equals(command)) {
       if (args == null || args.keySet().isEmpty()) return true;
     }
 
@@ -80,6 +82,7 @@ public class BaseballApp {
     if ("야구장등록".equals(command)) {
       if (argsSize != 1) return false;
       if (!args.containsKey("name")) return false;
+      return true;
     }
 
     // 팀등록?stadiumId=1&name=NC
@@ -87,6 +90,7 @@ public class BaseballApp {
       if (argsSize != 2) return false;
       if (!args.containsKey("stadiumId")) return false;
       if (!args.containsKey("name")) return false;
+      return true;
     }
 
     // 선수등록?teamId=1&name=이대호&position=1루수
@@ -95,12 +99,14 @@ public class BaseballApp {
       if (!args.containsKey("teamId")) return false;
       if (!args.containsKey("name")) return false;
       if (!args.containsKey("position")) return false;
+      return true;
     }
 
     // 선수목록?teamId=1
     if ("선수목록".equals(command)) {
       if (argsSize != 1) return false;
       if (!args.containsKey("teamId")) return false;
+      return true;
     }
 
     // 퇴출등록?playerId=1&reason=도박
@@ -108,9 +114,11 @@ public class BaseballApp {
       if (argsSize != 2) return false;
       if (!args.containsKey("playerId")) return false;
       if (!args.containsKey("reason")) return false;
+      return true;
     }
 
-    return true;
+    // 그 외에 잘못된 모든 명령들
+    return false;
   }
 
   private String inputRequest() {
