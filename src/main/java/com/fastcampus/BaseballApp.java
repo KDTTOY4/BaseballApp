@@ -159,8 +159,9 @@ public class BaseballApp {
       case "팀목록" -> teamService.getTeamList().forEach(System.out::println);
 
         // 선수등록?teamId=1&name=이대호&position=1루수
-      case "선수등록" -> playerService.registerPlayer(
-          args.get("name"), args.get("position"), Integer.parseInt(args.get("teamId")));
+      case "선수등록" -> System.out.println(
+          playerService.registerPlayer(
+              args.get("name"), args.get("position"), Integer.parseInt(args.get("teamId"))));
 
         // 선수목록?teamId=1
       case "선수목록" -> {
