@@ -5,11 +5,9 @@ import com.fastcampus.dto.PositionRespDto;
 import com.fastcampus.dto.TeamDto;
 import com.fastcampus.exceptions.BaseballAppException;
 import com.fastcampus.exceptions.code.AppErrorCode;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +17,7 @@ public class TeamDao {
     String sql = "INSERT INTO TEAM (stadium_id, name) VALUES (?, ?)";
 
     try (Connection conn = DBConnection.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
       pstmt.setInt(1, stadiumId);
       pstmt.setString(2, name);
@@ -39,11 +37,11 @@ public class TeamDao {
     List<TeamDto> teamList = new ArrayList<>();
 
     String sql =
-            "SELECT t.id, t.name, t.created_at, s.name as stadium_name FROM team t JOIN stadium s ON t.stadium_id = s.id";
+        "SELECT t.id, t.name, t.created_at, s.name as stadium_name FROM team t JOIN stadium s ON t.stadium_id = s.id";
 
     try (Connection conn = DBConnection.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql);
-         ResultSet rs = pstmt.executeQuery()) {
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery()) {
 
       while (rs.next()) {
         teamList.add(mapResultSetToTeamDto(rs));
@@ -75,16 +73,15 @@ public class TeamDao {
 
     for (TeamDto teamDto : teamDtoList) {
       sql.append(", ")
-              .append("max(case when t.name = '")
-              .append(teamDto.getName())
-              .append("' then p.name end) ")
-              .append(teamDto.getName());
+          .append("max(case when t.name = '")
+          .append(teamDto.getName())
+          .append("' then p.name end) ")
+          .append(teamDto.getName());
     }
     sql.append(" from team t right outer join player p on p.team_id = t.id group by p.position;");
 
-    List<PositionRespDto> positionRespDtoList = new ArrayList<>();
     try (Connection conn = DBConnection.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+        PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
 
       ResultSet rs = pstmt.executeQuery();
 
@@ -93,8 +90,8 @@ public class TeamDao {
 
         for (TeamDto teamDto : teamDtoList) {
           positionRespDto
-                  .getPlayerNameMapByTeam()
-                  .put(teamDto.getName(), rs.getString(teamDto.getName()));
+              .getPlayerNameMapByTeam()
+              .put(teamDto.getName(), rs.getString(teamDto.getName()));
         }
 
         positionRespDtoList.add(positionRespDto);
