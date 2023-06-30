@@ -1,6 +1,5 @@
 package com.fastcampus.dto;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,17 +16,12 @@ public class OutPlayerRespDto {
   LocalDateTime outDate;
 
   public static OutPlayerRespDto of(
-      String teamName, Integer playerId, String playerName, String playerPosition) {
-    return new OutPlayerRespDto(teamName, playerId, playerName, playerPosition, null, null);
-  }
-
-  public static OutPlayerRespDto of(
+      String teamName,
       Integer playerId,
       String playerName,
       String playerPosition,
       String reason,
-      Timestamp outDate) {
-    return new OutPlayerRespDto(
-        null, playerId, playerName, playerPosition, reason, outDate.toLocalDateTime());
+      LocalDateTime outDate) {
+    return new OutPlayerRespDto(teamName, playerId, playerName, playerPosition, reason, outDate);
   }
 }
