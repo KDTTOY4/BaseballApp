@@ -4,10 +4,10 @@ import com.fastcampus.dao.TeamDao;
 import com.fastcampus.dto.PositionRespDto;
 import com.fastcampus.dto.TeamDto;
 import com.fastcampus.exceptions.BaseballAppException;
+import java.util.Collections;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TeamService {
@@ -20,18 +20,25 @@ public class TeamService {
   public String registerTeam(Integer stadiumId, String name) {
     try {
       teamDao.insertTeam(stadiumId, name);
+      return "성공";
     } catch (BaseballAppException e) {
       return e.getMessage();
     }
-
-    return "성공";
   }
 
   public List<TeamDto> getTeamList() {
-    return teamDao.selectAll();
+    try {
+      return teamDao.selectAll();
+    } catch (BaseballAppException e) {
+      return Collections.emptyList();
+    }
   }
 
   public List<PositionRespDto> getPositionList() {
-    return teamDao.selectPlayerTablePositionRowTeamColumn();
+    try {
+      return teamDao.selectPlayerTablePositionRowTeamColumn();
+    } catch (BaseballAppException e) {
+      return Collections.emptyList();
+    }
   }
 }
