@@ -2,6 +2,8 @@ package com.fastcampus.dao;
 
 import com.fastcampus.db.DBConnection;
 import com.fastcampus.dto.PlayerDto;
+import com.fastcampus.exceptions.BaseballAppException;
+import com.fastcampus.exceptions.code.AppErrorCode;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class PlayerDao {
                 System.out.println("Player Registration Failed");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
         }
     }
 
@@ -49,7 +51,7 @@ public class PlayerDao {
                 playerList.add(mapResultSetToPlayerDto(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
         }
 
         return playerList;
@@ -65,6 +67,7 @@ public class PlayerDao {
 
         return new PlayerDto(id, name, position, createdAt, teamName);
     }
+
     public PlayerDto selectById(Integer playerId) {
         PlayerDto player = null;
         String sql =
@@ -84,7 +87,7 @@ public class PlayerDao {
                 player = mapResultSetToPlayerDto(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
         }
 
         return player;
