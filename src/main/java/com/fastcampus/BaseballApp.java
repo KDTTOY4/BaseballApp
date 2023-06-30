@@ -1,8 +1,8 @@
 package com.fastcampus;
 
-import com.fastcampus.dao.OutPlayerDao;
 import com.fastcampus.db.DBInitializer;
 import com.fastcampus.dto.PlayerDto;
+import com.fastcampus.enums.OutReason;
 import com.fastcampus.service.OutPlayerService;
 import com.fastcampus.service.PlayerService;
 import com.fastcampus.service.StadiumService;
@@ -168,13 +168,9 @@ public class BaseballApp {
         }
       }
         // 퇴출등록?playerId=1&reason=도박
-      case "퇴출등록" -> {
-        String reasonStr = args.get("reason");
-        OutPlayerDao.Reason reason = OutPlayerDao.Reason.valueOf(reasonStr);
-        System.out.println(outPlayerService.registerOutPlayer(
-                Integer.parseInt(args.get("playerId")), reason));
-      }
-
+      case "퇴출등록" -> System.out.println(
+          outPlayerService.registerOutPlayer(
+              Integer.parseInt(args.get("playerId")), OutReason.fromStr(args.get("reason"))));
 
       case "퇴출목록" -> outPlayerService.getOutPlayerList().forEach(System.out::println);
 
