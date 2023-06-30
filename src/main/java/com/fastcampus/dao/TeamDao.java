@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TeamDao {
 
-  public void insertTeam(Integer stadiumId, String name) {
+  public void insertTeam(Integer stadiumId, String name) throws BaseballAppException {
     String sql = "INSERT INTO TEAM (stadium_id, name) VALUES (?, ?)";
 
     try (Connection conn = DBConnection.getConnection();
@@ -25,11 +25,9 @@ public class TeamDao {
       pstmt.setString(2, name);
 
       int affectedRows = pstmt.executeUpdate();
-      if (affectedRows > 0) {
-        System.out.println("Team Registration Success");
-      } else {
-        System.out.println("Team Registration Failed");
-      }
+
+      if (affectedRows == 0) throw new SQLException();
+
     } catch (SQLException e) {
       throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
     } catch (Exception e) {
@@ -37,7 +35,7 @@ public class TeamDao {
     }
   }
 
-  public List<TeamDto> selectAll() {
+  public List<TeamDto> selectAll() throws BaseballAppException {
     List<TeamDto> teamList = new ArrayList<>();
 
     String sql =
@@ -67,7 +65,10 @@ public class TeamDao {
     return new TeamDto(id, name, createdAt, stadiumName);
   }
 
-  public List<PositionRespDto> selectPlayerTablePositionRowTeamColumn() {
+  public List<PositionRespDto> selectPlayerTablePositionRowTeamColumn()
+      throws BaseballAppException {
+    List<PositionRespDto> positionRespDtoList = new ArrayList<>();
+
     List<TeamDto> teamDtoList = selectAll();
 
     StringBuilder sql = new StringBuilder("select p.position position_name");
