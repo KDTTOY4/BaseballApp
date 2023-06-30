@@ -3,10 +3,8 @@ package com.fastcampus.dto;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
 public class OutPlayerRespDto {
   String teamName;
   Integer playerId;
@@ -23,5 +21,20 @@ public class OutPlayerRespDto {
       String reason,
       LocalDateTime outDate) {
     return new OutPlayerRespDto(teamName, playerId, playerName, playerPosition, reason, outDate);
+  }
+
+  @Override
+  public String toString() {
+    return playerId
+        + ", "
+        + playerName
+        + ", "
+        + playerPosition
+        + ", "
+        + (teamName == null ? "없음" : teamName)
+        + ", "
+        + (reason == null ? "" : reason)
+        + ", "
+        + (outDate == null ? "" : outDate.toLocalDate());
   }
 }
