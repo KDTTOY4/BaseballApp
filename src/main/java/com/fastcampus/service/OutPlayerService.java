@@ -4,7 +4,11 @@ import com.fastcampus.dao.OutPlayerDao;
 import com.fastcampus.dao.PlayerDao;
 import com.fastcampus.dto.OutPlayerRespDto;
 import com.fastcampus.enums.OutReason;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fastcampus.exceptions.BaseballAppException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +29,22 @@ public class OutPlayerService {
 
     try {
       outPlayerDao.insertOutPlayer(playerId, reason);
-    } catch (Exception e) {
-      return "오류 발생";
+    } catch (BaseballAppException e) {
+      return e.getMessage();
     }
 
     return "성공";
   }
 
   public List<OutPlayerRespDto> getOutPlayerList() {
-    return outPlayerDao.selectAll();
+    List<OutPlayerRespDto> outPlayerRespDtoList = new ArrayList<>();
+
+    try {
+      outPlayerRespDtoList = outPlayerDao.selectAll();
+    } catch (BaseballAppException e) {
+      System.out.println(e.getMessage());
+    }
+
+    return outPlayerRespDtoList;
   }
 }

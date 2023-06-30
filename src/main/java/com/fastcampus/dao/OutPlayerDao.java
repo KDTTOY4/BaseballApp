@@ -3,6 +3,8 @@ package com.fastcampus.dao;
 import com.fastcampus.db.DBConnection;
 import com.fastcampus.dto.OutPlayerRespDto;
 import com.fastcampus.enums.OutReason;
+import com.fastcampus.exceptions.BaseballAppException;
+import com.fastcampus.exceptions.code.AppErrorCode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +29,14 @@ public class OutPlayerDao {
       updateStmt.setInt(1, playerId);
       int affectedRows = updateStmt.executeUpdate();
 
-      if (affectedRows > 0) {
-        System.out.println("OutPlayer Registration Success");
-      } else {
-        System.out.println("OutPlayer Registration Failed");
-      }
+      if (affectedRows == 0) throw new SQLException();
 
       conn.commit();
       conn.setAutoCommit(true);
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+    } catch (Exception e) {
+      throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
     }
   }
 
@@ -77,7 +77,9 @@ public class OutPlayerDao {
         outPlayerRespDtoList.add(outPlayerRespDto);
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
+    } catch (Exception e) {
+      throw new BaseballAppException(AppErrorCode.UNKNOWN_EXCEPTION);
     }
 
     return outPlayerRespDtoList;
