@@ -1,7 +1,6 @@
 package com.fastcampus;
 
 import com.fastcampus.db.DBInitializer;
-import com.fastcampus.dto.PlayerDto;
 import com.fastcampus.enums.OutReason;
 import com.fastcampus.service.OutPlayerService;
 import com.fastcampus.service.PlayerService;
@@ -147,41 +146,54 @@ public class BaseballApp {
   public void execute(String command, Map<String, String> args) {
     switch (command) {
         // 야구장등록?name=잠실야구장
-      case "야구장등록" -> System.out.println(stadiumService.registerStadium(args.get("name")));
+      case "야구장등록" -> System.out.println(
+          "\n" + stadiumService.registerStadium(args.get("name")) + "\n");
 
         // 야구장목록
-      case "야구장목록" -> stadiumService.getStadiumList().forEach(System.out::println);
+      case "야구장목록" -> {
+        System.out.println("\nID, 야구장명, 개장일");
+        stadiumService.getStadiumList().forEach(System.out::println);
+        System.out.println();
+      }
 
         // 팀등록?stadiumId=1&name=NC
       case "팀등록" -> System.out.println(
-          teamService.registerTeam(Integer.parseInt(args.get("stadiumId")), args.get("name")));
+          "\n"
+              + teamService.registerTeam(Integer.parseInt(args.get("stadiumId")), args.get("name"))
+              + "\n");
 
-      case "팀목록" -> teamService.getTeamList().forEach(System.out::println);
+      case "팀목록" -> {
+        System.out.println("\nID, 연고지, 팀명, 창단일");
+        teamService.getTeamList().forEach(System.out::println);
+        System.out.println();
+      }
 
         // 선수등록?teamId=1&name=이대호&position=1루수
       case "선수등록" -> System.out.println(
-          playerService.registerPlayer(
-              args.get("name"), args.get("position"), Integer.parseInt(args.get("teamId"))));
+          "\n"
+              + playerService.registerPlayer(
+                  args.get("name"), args.get("position"), Integer.parseInt(args.get("teamId")))
+              + "\n");
 
         // 선수목록?teamId=1
       case "선수목록" -> {
-        Integer teamId = Integer.parseInt(args.get("teamId"));
-        List<PlayerDto> playerList = playerService.getPlayerList(teamId);
-
-        System.out.println("선수 목록");
-        System.out.println("----------");
-        for (PlayerDto player : playerList) {
-          System.out.println("이름: " + player.getName());
-          System.out.println("포지션: " + player.getPosition());
-          System.out.println("-----------");
-        }
+        System.out.println("\nID, 선수명, 포지션, 팀명, 데뷔일");
+        playerService
+            .getPlayerList(Integer.parseInt(args.get("teamId")))
+            .forEach(System.out::println);
       }
         // 퇴출등록?playerId=1&reason=도박
       case "퇴출등록" -> System.out.println(
-          outPlayerService.registerOutPlayer(
-              Integer.parseInt(args.get("playerId")), OutReason.fromStr(args.get("reason"))));
+          "\n"
+              + outPlayerService.registerOutPlayer(
+                  Integer.parseInt(args.get("playerId")), OutReason.fromStr(args.get("reason")))
+              + "\n");
 
-      case "퇴출목록" -> outPlayerService.getOutPlayerList().forEach(System.out::println);
+      case "퇴출목록" -> {
+        System.out.println("선수ID, 선수명, 포지션, 팀명, 퇴출이유, 퇴출일");
+        outPlayerService.getOutPlayerList().forEach(System.out::println);
+        System.out.println();
+      }
 
       case "포지션별목록" -> teamService
           .getPositionList()
