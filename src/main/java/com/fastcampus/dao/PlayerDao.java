@@ -67,7 +67,7 @@ public class PlayerDao {
     Timestamp createdAt = rs.getTimestamp("created_at");
     String teamName = rs.getString("team_name");
 
-    return new PlayerDto(id, name, position, createdAt, teamName);
+    return PlayerDto.of(id, name, position, createdAt, teamName);
   }
 
   public PlayerDto selectById(Integer playerId) throws BaseballAppException {

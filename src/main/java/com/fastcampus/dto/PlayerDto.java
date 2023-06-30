@@ -1,25 +1,34 @@
 package com.fastcampus.dto;
 
 import java.sql.Timestamp;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter
-@Setter
-@ToString
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerDto {
-    private Integer id;
-    private String name;
-    private String position;
-    private Timestamp createdAt;
-    private String teamName;
+  private Integer id;
+  private String name;
+  private String position;
+  private Timestamp createdAt;
+  private String teamName;
 
-    public PlayerDto(Integer id, String name, String position, Timestamp createdAt, String teamName) {
-        this.id = id;
-        this.name = name;
-        this.position = position;
-        this.createdAt = createdAt;
-        this.teamName = teamName;
-    }
+  public static PlayerDto of(
+      Integer id, String name, String position, Timestamp createdAt, String teamName) {
+    return new PlayerDto(id, name, position, createdAt, teamName);
+  }
+
+  @Override
+  public String toString() {
+    return id
+        + ", "
+        + name
+        + ", "
+        + position
+        + ", "
+        + teamName
+        + ", "
+        + createdAt.toLocalDateTime().toLocalDate();
+  }
 }

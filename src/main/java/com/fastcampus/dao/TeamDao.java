@@ -60,7 +60,7 @@ public class TeamDao {
     Timestamp createdAt = rs.getTimestamp("created_at");
     String stadiumName = rs.getString("stadium_name");
 
-    return new TeamDto(id, name, createdAt, stadiumName);
+    return TeamDto.of(id, name, createdAt, stadiumName);
   }
 
   public List<PositionRespDto> selectPlayerTablePositionRowTeamColumn()
@@ -86,7 +86,7 @@ public class TeamDao {
       ResultSet rs = pstmt.executeQuery();
 
       while (rs.next()) {
-        PositionRespDto positionRespDto = new PositionRespDto(rs.getString("position_name"));
+        PositionRespDto positionRespDto = PositionRespDto.of(rs.getString("position_name"));
 
         for (TeamDto teamDto : teamDtoList) {
           positionRespDto
