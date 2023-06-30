@@ -70,7 +70,7 @@ public class PlayerDao {
         String sql =
                 "SELECT p.id, p.name, p.position, p.created_at, t.name AS team_name "
                         + "FROM player p "
-                        + "JOIN team t ON p.team_id = t.id "
+                        + "LEFT OUTER JOIN team t ON p.team_id = t.id "
                         + "WHERE p.id = ?";
 
         try (Connection conn = DBConnection.getConnection();
