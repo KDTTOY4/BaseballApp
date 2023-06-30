@@ -6,6 +6,7 @@ import com.fastcampus.enums.OutReason;
 import com.fastcampus.exceptions.BaseballAppException;
 import com.fastcampus.exceptions.code.AppErrorCode;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -65,16 +66,13 @@ public class OutPlayerDao {
         String playerName = rs.getString("player_name");
         String playerPosition = rs.getString("player_position");
         String reason = rs.getString("reason");
-        Timestamp outDate = rs.getTimestamp("out_date");
+        LocalDateTime outDate =
+            rs.getTimestamp("out_date") == null
+                ? null
+                : rs.getTimestamp("out_date").toLocalDateTime();
 
-        OutPlayerRespDto outPlayerRespDto;
-        if (rs.getString("reason") == null) {
-          outPlayerRespDto = OutPlayerRespDto.of(teamName, playerId, playerName, playerPosition);
-        } else {
-          outPlayerRespDto =
-              OutPlayerRespDto.of(playerId, playerName, playerPosition, reason, outDate);
-        }
-        outPlayerRespDtoList.add(outPlayerRespDto);
+        outPlayerRespDtoList.add(
+            OutPlayerRespDto.of(teamName, playerId, playerName, playerPosition, reason, outDate));
       }
     } catch (SQLException e) {
       throw new BaseballAppException(AppErrorCode.DB_EXCEPTION);
