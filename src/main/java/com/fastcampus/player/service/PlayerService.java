@@ -19,7 +19,7 @@ public class PlayerService {
 
     public String registerPlayer(String name, String position, Integer teamId) {
         try {
-            playerDao.insertPlayer(teamId, name, position);
+            playerDao.insert(teamId, name, position);
             return "성공";
         } catch (BaseballAppException e) {
             return e.getMessage();
@@ -28,7 +28,7 @@ public class PlayerService {
 
     public List<PlayerDto> getPlayerList(Integer teamId) {
         try {
-            return playerDao.selectAll(teamId);
+            return playerDao.selectAllByTeamId(teamId);
         } catch (BaseballAppException e) {
             System.out.println(e.getMessage());
             return Collections.emptyList();

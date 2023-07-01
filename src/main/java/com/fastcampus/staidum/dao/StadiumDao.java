@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StadiumDao {
-  public void insertStadium(String name) throws BaseballAppException {
+  public void insert(String name) throws BaseballAppException {
     String sql = "INSERT INTO stadium (name, created_at) VALUES (?, now());";
 
     try (Connection conn = DBConnection.getConnection();

@@ -24,7 +24,7 @@ public class OutPlayerService {
     try {
       if (playerDao.selectById(playerId).getTeamName() == null) return "이미 퇴출된 선수입니다.";
 
-      outPlayerDao.insertOutPlayer(playerId, reason);
+      outPlayerDao.insert(playerId, reason);
     } catch (BaseballAppException e) {
       return e.getMessage();
     }

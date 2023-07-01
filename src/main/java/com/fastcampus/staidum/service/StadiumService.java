@@ -18,7 +18,7 @@ public class StadiumService {
 
   public String registerStadium(String name) {
     try {
-      stadiumDao.insertStadium(name);
+      stadiumDao.insert(name);
       return "성공";
     } catch (BaseballAppException e) {
       return e.getMessage();
