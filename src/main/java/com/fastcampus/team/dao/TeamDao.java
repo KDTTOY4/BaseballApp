@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TeamDao {
 
-  public void insertTeam(Integer stadiumId, String name) throws BaseballAppException {
-    String sql = "INSERT INTO TEAM (stadium_id, name) VALUES (?, ?)";
+  public void insert(Integer stadiumId, String name) throws BaseballAppException {
+    String sql = "INSERT INTO TEAM (stadium_id, name, created_at) VALUES (?, ?, now())";
 
     try (Connection conn = DBConnection.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)) {

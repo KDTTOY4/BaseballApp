@@ -19,7 +19,7 @@ public class TeamService {
 
   public String registerTeam(Integer stadiumId, String name) {
     try {
-      teamDao.insertTeam(stadiumId, name);
+      teamDao.insert(stadiumId, name);
       return "성공";
     } catch (BaseballAppException e) {
       return e.getMessage();
