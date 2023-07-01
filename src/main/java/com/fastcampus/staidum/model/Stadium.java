@@ -1,4 +1,4 @@
-package com.fastcampus.model;
+package com.fastcampus.staidum.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

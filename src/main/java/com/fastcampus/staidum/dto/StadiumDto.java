@@ -1,4 +1,4 @@
-package com.fastcampus.dto;
+package com.fastcampus.staidum.dto;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

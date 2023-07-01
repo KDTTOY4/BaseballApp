@@ -1,7 +1,7 @@
-package com.fastcampus.dao;
+package com.fastcampus.staidum.dao;
 
 import com.fastcampus.db.DBConnection;
-import com.fastcampus.dto.StadiumDto;
+import com.fastcampus.staidum.dto.StadiumDto;
 import com.fastcampus.exceptions.BaseballAppException;
 import com.fastcampus.exceptions.code.AppErrorCode;
 import java.sql.Connection;

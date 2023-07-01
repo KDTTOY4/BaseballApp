@@ -4,7 +4,7 @@ import com.fastcampus.db.DBInitializer;
 import com.fastcampus.outplayer.enums.OutReason;
 import com.fastcampus.outplayer.service.OutPlayerService;
 import com.fastcampus.player.service.PlayerService;
-import com.fastcampus.service.StadiumService;
+import com.fastcampus.staidum.service.StadiumService;
 import com.fastcampus.service.TeamService;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
