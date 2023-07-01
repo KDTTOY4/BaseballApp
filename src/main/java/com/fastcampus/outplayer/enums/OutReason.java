@@ -1,4 +1,4 @@
-package com.fastcampus.enums;
+package com.fastcampus.outplayer.enums;
 
 public enum OutReason {
     GAMBLING("도박"),

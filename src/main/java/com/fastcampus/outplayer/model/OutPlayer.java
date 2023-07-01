@@ -1,4 +1,4 @@
-package com.fastcampus.model;
+package com.fastcampus.outplayer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

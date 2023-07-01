@@ -1,4 +1,4 @@
-package com.fastcampus.dto;
+package com.fastcampus.outplayer.dto;
 
 import java.time.LocalDateTime;
 import lombok.AccessLevel;

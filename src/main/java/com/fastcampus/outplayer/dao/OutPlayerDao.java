@@ -1,8 +1,8 @@
-package com.fastcampus.dao;
+package com.fastcampus.outplayer.dao;
 
 import com.fastcampus.db.DBConnection;
-import com.fastcampus.dto.OutPlayerRespDto;
-import com.fastcampus.enums.OutReason;
+import com.fastcampus.outplayer.dto.OutPlayerRespDto;
+import com.fastcampus.outplayer.enums.OutReason;
 import com.fastcampus.exceptions.BaseballAppException;
 import com.fastcampus.exceptions.code.AppErrorCode;
 import java.sql.*;
