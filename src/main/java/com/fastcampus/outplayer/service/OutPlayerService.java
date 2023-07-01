@@ -1,7 +1,7 @@
 package com.fastcampus.outplayer.service;
 
 import com.fastcampus.outplayer.dao.OutPlayerDao;
-import com.fastcampus.dao.PlayerDao;
+import com.fastcampus.player.dao.PlayerDao;
 import com.fastcampus.outplayer.dto.OutPlayerRespDto;
 import com.fastcampus.outplayer.enums.OutReason;
 import com.fastcampus.exceptions.BaseballAppException;

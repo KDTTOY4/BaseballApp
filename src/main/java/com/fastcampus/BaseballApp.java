@@ -3,7 +3,7 @@ package com.fastcampus;
 import com.fastcampus.db.DBInitializer;
 import com.fastcampus.outplayer.enums.OutReason;
 import com.fastcampus.outplayer.service.OutPlayerService;
-import com.fastcampus.service.PlayerService;
+import com.fastcampus.player.service.PlayerService;
 import com.fastcampus.service.StadiumService;
 import com.fastcampus.service.TeamService;
 import java.util.*;

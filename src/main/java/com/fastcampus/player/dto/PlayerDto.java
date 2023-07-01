@@ -1,4 +1,4 @@
-package com.fastcampus.dto;
+package com.fastcampus.player.dto;
 
 import java.sql.Timestamp;
 import lombok.AccessLevel;

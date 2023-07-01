@@ -1,7 +1,7 @@
-package com.fastcampus.service;
+package com.fastcampus.player.service;
 
-import com.fastcampus.dao.PlayerDao;
-import com.fastcampus.dto.PlayerDto;
+import com.fastcampus.player.dao.PlayerDao;
+import com.fastcampus.player.dto.PlayerDto;
 import com.fastcampus.exceptions.BaseballAppException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
