@@ -1,23 +1,27 @@
 package com.fastcampus.team.model;
 
 import java.sql.Timestamp;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
+import lombok.*;
 
 @Getter
-@Setter
-@AllArgsConstructor
-@ToString
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Team {
-    private Integer id;
-    private Integer stadiumId;
-    private String name;
-    private Timestamp createdAt;
+  private Integer id;
+  private Integer stadiumId;
+  private String name;
+  private Timestamp createdAt;
 
-    public Team(int stadiumId, String name) {
-        this.stadiumId = stadiumId;
-        this.name = name;
-    }
+  private Team(int stadiumId, String name) {
+    this.stadiumId = stadiumId;
+    this.name = name;
+  }
+
+  public static Team of(Integer stadiumId, String name) {
+    return new Team(stadiumId, name);
+  }
+
+  public static Team of(Integer id, Integer stadiumId, String name, Timestamp createdAt) {
+    return new Team(id, stadiumId, name, createdAt);
+  }
 }
