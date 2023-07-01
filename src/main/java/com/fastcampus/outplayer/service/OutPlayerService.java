@@ -1,9 +1,9 @@
-package com.fastcampus.service;
+package com.fastcampus.outplayer.service;
 
-import com.fastcampus.dao.OutPlayerDao;
-import com.fastcampus.dao.PlayerDao;
-import com.fastcampus.dto.OutPlayerRespDto;
-import com.fastcampus.enums.OutReason;
+import com.fastcampus.outplayer.dao.OutPlayerDao;
+import com.fastcampus.player.dao.PlayerDao;
+import com.fastcampus.outplayer.dto.OutPlayerRespDto;
+import com.fastcampus.outplayer.enums.OutReason;
 import com.fastcampus.exceptions.BaseballAppException;
 import java.util.Collections;
 import java.util.List;

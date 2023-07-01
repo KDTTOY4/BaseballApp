@@ -1,4 +1,4 @@
-package com.fastcampus.model;
+package com.fastcampus.team.model;
 
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;

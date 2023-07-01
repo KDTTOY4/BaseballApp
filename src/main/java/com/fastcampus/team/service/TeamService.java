@@ -1,8 +1,8 @@
-package com.fastcampus.service;
+package com.fastcampus.team.service;
 
-import com.fastcampus.dao.TeamDao;
-import com.fastcampus.dto.PositionRespDto;
-import com.fastcampus.dto.TeamDto;
+import com.fastcampus.team.dao.TeamDao;
+import com.fastcampus.team.dto.PositionRespDto;
+import com.fastcampus.team.dto.TeamDto;
 import com.fastcampus.exceptions.BaseballAppException;
 import java.util.Collections;
 import java.util.List;

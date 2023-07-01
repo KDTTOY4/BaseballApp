@@ -1,7 +1,7 @@
-package com.fastcampus.service;
+package com.fastcampus.staidum.service;
 
-import com.fastcampus.dao.StadiumDao;
-import com.fastcampus.dto.StadiumDto;
+import com.fastcampus.staidum.dao.StadiumDao;
+import com.fastcampus.staidum.dto.StadiumDto;
 import com.fastcampus.exceptions.BaseballAppException;
 import java.util.Collections;
 import java.util.List;
