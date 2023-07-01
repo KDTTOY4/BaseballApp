@@ -1,8 +1,8 @@
-package com.fastcampus.dao;
+package com.fastcampus.team.dao;
 
 import com.fastcampus.db.DBConnection;
-import com.fastcampus.dto.PositionRespDto;
-import com.fastcampus.dto.TeamDto;
+import com.fastcampus.team.dto.PositionRespDto;
+import com.fastcampus.team.dto.TeamDto;
 import com.fastcampus.exceptions.BaseballAppException;
 import com.fastcampus.exceptions.code.AppErrorCode;
 import java.sql.*;
